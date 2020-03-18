@@ -1,0 +1,21 @@
+<launch>
+  <include file="$(find open_manipulator_moveit)/launch/planning_context.launch" >
+    <arg name="load_robot_description" value="true" />
+  </include>
+
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+    <param name="/use_gui" value="false"/>
+    <!-- Pada bagian ini tambahkan source joint state dari manipulator yang akan dikontrol -->
+    <rosparam param="/source_list">[joint_states]</rosparam>
+  </node>
+
+  <include file="$(find open_manipulator_moveit)/launch/move_group.launch">
+    <arg name="publish_monitored_planning_scene" value="true" />
+  </include>
+
+  <!-- Bagian ini berfungsi untuk menjalankan RVIZ pada saat file di launch -->
+  <include file="$(find open_manipulator_moveit)/launch/moveit_rviz.launch">
+    <arg name="rviz_config" value="$(find open_manipulator_moveit)/launch/moveit.rviz"/>
+  </include>
+
+</launch>
